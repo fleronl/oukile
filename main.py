@@ -29,5 +29,4 @@ if __name__ == "__main__":
     liste = [1, "Batiment", [2, "Salle 1"], [3, "Salle 2"]]
     arbre2 = Noeud(0, "", []).CreerArbre(liste)
     print(arbre2)
-
-
+    
