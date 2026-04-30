@@ -103,7 +103,7 @@ if __name__ == "__main__":
         {"id": 100, "code_article": "C-A1", "libelle": "Casier Métallique A1", "pere": 10},
         {"id": 101, "code_article": "C-A2", "libelle": "Casier Métallique A2", "pere": 10},
         {"id": 110, "code_article": "C-B1", "libelle": "Étagère Bois B1", "pere": 11},
-        {"id": 111, "code_article": "C-B2", "libelle": "Boite aux lettres", "pere": 10},
+        {"id": 111, "code_article": "C-B2", "libelle": "Boite aux lettres", "pere": 1},
         
         # Niveau 3 : Les Livres (parent = Casiers)
         {"id": 1001, "code_article": "LIV-01", "libelle": "Manuel de Python", "pere": 100},
@@ -112,8 +112,8 @@ if __name__ == "__main__":
         {"id": 1101, "code_article": "LIV-04", "libelle": "Histoire de l'Art", "pere": 110},
 
         # Niveau 3? : Les Livres qui n'ont pas encore de casier (parent = Salle)
-        {"id": 1110, "code_article": "LIV-05", "libelle": "Guide de la Lecture", "pere": 0 },
-        {"id": 1111, "code_article": "LIV-06", "libelle": "Guide du voyageur intergalactique", "pere": 0 },
+        {"id": 1110, "code_article": "LIV-05", "libelle": "Guide de la Lecture", "pere": 111 },
+        {"id": 1111, "code_article": "LIV-06", "libelle": "Guide du voyageur intergalactique", "pere": 111 },
     
     ]
 
