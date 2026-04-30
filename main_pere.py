@@ -52,6 +52,25 @@ class ArticleTree:
         """
         return [node for node in self.nodes.values() if node.pere == parent_id]
 
+    def trouver_chemin(self, id_destination):
+        """
+        Remonte l'arbre de l'enfant vers la racine pour construire le chemin.
+        """
+        chemin = []
+        courant_id = id_destination
+
+        while courant_id is not None:
+            noeud = self.nodes.get(courant_id)
+            if noeud:
+                chemin.append(noeud)
+                courant_id = noeud.pere
+            else:
+                break
+        
+        # On inverse la liste pour l'avoir de la racine vers la destination
+        return chemin[::-1]
+
+
     def afficher_arbre(self, parent_id=None, niveau=0):
         """
         Affiche l'arbre de manière récursive en filtrant par l'ID du père.
@@ -93,8 +112,8 @@ if __name__ == "__main__":
         {"id": 1101, "code_article": "LIV-04", "libelle": "Histoire de l'Art", "pere": 110},
 
         # Niveau 3? : Les Livres qui n'ont pas encore de casier (parent = Salle)
-        {"id": 1110, "code_article": "LIV-05", "libelle": "Guide de la Lecture", "pere": 111 },
-        {"id": 1111, "code_article": "LIV-06", "libelle": "Guide du voyageur intergalactique", "pere": 111 },
+        {"id": 1110, "code_article": "LIV-05", "libelle": "Guide de la Lecture", "pere": 0 },
+        {"id": 1111, "code_article": "LIV-06", "libelle": "Guide du voyageur intergalactique", "pere": 0 },
     
     ]
 
@@ -104,3 +123,22 @@ if __name__ == "__main__":
     print("Inventaire Hiérarchique du Bâtiment :\n")
     # On commence par le sommet de la pyramide (pere is None)
     mon_arbre.afficher_arbre(parent_id=None)
+
+    print("-" * 30)
+
+    # Interaction avec l'utilisateur
+    try:
+        id_cible = int(input("\nEntrez l'ID du nœud de destination pour trouver son chemin : "))
+        
+        if id_cible in mon_arbre.nodes:
+            chemin = mon_arbre.trouver_chemin(id_cible)
+            print(f"\nChemin trouvé pour arriver à '{mon_arbre.nodes[id_cible].libelle}' :")
+            
+            # Affichage formaté du chemin : Racine > ... > Cible
+            noms_chemin = [str(n) for n in chemin]
+            print(" > ".join(noms_chemin))
+        else:
+            print(f"Erreur : L'ID {id_cible} n'existe pas dans l'inventaire.")
+            
+    except ValueError:
+        print("Erreur : Veuillez entrer un nombre entier pour l'ID.")
