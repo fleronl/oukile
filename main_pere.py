@@ -16,12 +16,12 @@ class ArticleNode:
     """
     Représente un nœud dans l'arbre des articles sans redondance.
     """
-    def __init__(self, id, code_article, libelle, pere=None):
+    def __init__(self, id, code_article, libelle, pere=None, tag):
         self.id = id
         self.code_article = code_article
         self.libelle = libelle
         self.pere = pere  # ID du parent (unique lien de parenté)
-        self.tag = []
+        self.tag = [] # Liste de tags pour les annotations supplémentaires
 
     def __repr__(self):
         return f"Node({self.code_article}: {self.libelle})"
@@ -116,14 +116,16 @@ class ArticleTree:
         import json
         with open(fichier, 'r', encoding='utf-8') as f:
             data = json.load(f)
+            print(data["10"]['tag'])
         for node_data in data.values():
             node = ArticleNode(
-                id=node_data['id'],
-                code_article=node_data['code_article'],
-                libelle=node_data['libelle'],
-                pere=node_data['pere']
+                id = node_data['id'],
+                code_article = node_data['code_article'],
+                libelle = node_data['libelle'],
+                pere = node_data['pere'],
+                tag = node_data['tag']
             )
-            node.tag = node_data['tag']
+            #node.tag = node_data['tag']
             self.nodes[node.id] = node
 
 
@@ -165,7 +167,7 @@ if __name__ == "__main__":
     mon_arbre.afficher_arbre(parent_id=None)
 
     print("-" * 30)
-
+    """
     # Interaction avec l'utilisateur
     try:
         id_cible = int(input("\nEntrez l'ID du nœud de destination pour trouver son chemin : "))
@@ -182,7 +184,7 @@ if __name__ == "__main__":
             
     except ValueError:
         print("Erreur : Veuillez entrer un nombre entier pour l'ID.")
-
+    """
     # Sauvegarde de l'arbre dans un fichier JSON
     mon_arbre.sauvegarder_json("inventaire_batiment.json")
     print("\nL'inventaire a été sauvegardé dans 'inventaire_batiment.json'.")
