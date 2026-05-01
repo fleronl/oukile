@@ -7,9 +7,9 @@ Chaque noeud a :
 - un libellé (`libelle`)
 - un père (`pere`) qui est un autre noeud ou `None` s'il n'a pas de père comme la racine de l'arbre.
 
-La méthode `CreerArbre` permet de construire une arborescence à partir d'une liste imbriquée, 
+La méthode `CreerArbre` permet de construire une arborescence à partir d'une liste de dictionnaires, 
 où le premier élément est l'identifiant, le deuxième est le libellé, 
-et l'élément précend est le père'.
+et l'élément précédent est le père'.
 """
 
 class ArticleNode:
@@ -21,6 +21,7 @@ class ArticleNode:
         self.code_article = code_article
         self.libelle = libelle
         self.pere = pere  # ID du parent (unique lien de parenté)
+        self.tag = []
 
     def __repr__(self):
         return f"Node({self.code_article}: {self.libelle})"
@@ -31,11 +32,11 @@ class ArticleTree:
     Gère la hiérarchie des articles en utilisant uniquement l'attribut 'pere'.
     """
     def __init__(self):
-        self.nodes = {}  # Stockage à plat des nœuds par ID
+        self.nodes = {}  # Stockage à plat des noeuds par ID
 
     def ajouter_depuis_liste(self, liste_articles):
         """
-        Remplit le dictionnaire de nœuds à partir d'une liste brute.
+        Remplit le dictionnaire de noeuds à partir d'une liste brute.
         """
         for item in liste_articles:
             node = ArticleNode(
@@ -48,7 +49,7 @@ class ArticleTree:
 
     def trouver_enfants(self, parent_id):
         """
-        Recherche dynamiquement tous les nœuds ayant un parent spécifique.
+        Recherche dynamiquement tous les noeuds ayant un parent spécifique.
         """
         return [node for node in self.nodes.values() if node.pere == parent_id]
 
@@ -75,7 +76,7 @@ class ArticleTree:
         """
         Affiche l'arbre de manière récursive en filtrant par l'ID du père.
         """
-        # On récupère les nœuds qui ont parent_id comme père
+        # On récupère les noeuds qui ont parent_id comme père
         enfants = self.trouver_enfants(parent_id)
         
         for n in enfants:
@@ -85,6 +86,13 @@ class ArticleTree:
             
             # Appel récursif pour chercher les enfants de ce nœud
             self.afficher_arbre(n.id, niveau + 1)
+
+    def ajouterTag(self, id, tag):
+        """
+        Ajoute un tag à la liste de tags du nœud identifié par 'id'.
+        """
+        if id in self.nodes:
+            self.nodes[id].tag.append(tag)
 
 
 # --- EXEMPLE D'UTILISATION : GESTION D'UN BÂTIMENT ---
