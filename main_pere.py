@@ -94,6 +94,38 @@ class ArticleTree:
         if id in self.nodes:
             self.nodes[id].tag.append(tag)
 
+    def sauvegarder_json(self, fichier):
+        """
+        Sauvegarde les noeuds de l'arbre dans un fichier JSON.
+        """
+        import json
+        data = {node.id: {
+            'id': node.id,
+            'code_article': node.code_article,
+            'libelle': node.libelle,
+            'pere': node.pere,
+            'tag': node.tag
+        } for node in self.nodes.values()}
+        with open(fichier, 'w', encoding='utf-8') as f:
+            json.dump(data, f, indent=4, ensure_ascii=False)
+
+    def charger_depuis_json(self, fichier):
+        """
+        Charge les noeuds depuis un fichier JSON et les ajoute à l'arbre.
+        """
+        import json
+        with open(fichier, 'r', encoding='utf-8') as f:
+            data = json.load(f)
+        for node_data in data.values():
+            node = ArticleNode(
+                id=node_data['id'],
+                code_article=node_data['code_article'],
+                libelle=node_data['libelle'],
+                pere=node_data['pere']
+            )
+            node.tag = node_data['tag']
+            self.nodes[node.id] = node
+
 
 # --- EXEMPLE D'UTILISATION : GESTION D'UN BÂTIMENT ---
 
@@ -150,3 +182,13 @@ if __name__ == "__main__":
             
     except ValueError:
         print("Erreur : Veuillez entrer un nombre entier pour l'ID.")
+
+    # Sauvegarde de l'arbre dans un fichier JSON
+    mon_arbre.sauvegarder_json("inventaire_batiment.json")
+    print("\nL'inventaire a été sauvegardé dans 'inventaire_batiment.json'.")
+
+    # Chargement de l'arbre depuis le fichier JSON pour vérification
+    nouvel_arbre = ArticleTree()
+    nouvel_arbre.charger_depuis_json("inventaire_batiment.json")
+    print("\nArbre chargé depuis le fichier JSON :\n")
+    nouvel_arbre.afficher_arbre(parent_id=None)

@@ -1,0 +1,93 @@
+{
+    "1": {
+        "id": 1,
+        "code_article": "BAT-A",
+        "libelle": "Bâtiment Principal",
+        "pere": null,
+        "tag": []
+    },
+    "10": {
+        "id": 10,
+        "code_article": "S01",
+        "libelle": "Salle de Stockage Nord",
+        "pere": 1,
+        "tag": []
+    },
+    "11": {
+        "id": 11,
+        "code_article": "S02",
+        "libelle": "Salle de Lecture",
+        "pere": 1,
+        "tag": []
+    },
+    "100": {
+        "id": 100,
+        "code_article": "C-A1",
+        "libelle": "Casier Métallique A1",
+        "pere": 10,
+        "tag": []
+    },
+    "101": {
+        "id": 101,
+        "code_article": "C-A2",
+        "libelle": "Casier Métallique A2",
+        "pere": 10,
+        "tag": []
+    },
+    "110": {
+        "id": 110,
+        "code_article": "C-B1",
+        "libelle": "Étagère Bois B1",
+        "pere": 11,
+        "tag": []
+    },
+    "111": {
+        "id": 111,
+        "code_article": "C-B2",
+        "libelle": "Boite aux lettres",
+        "pere": 1,
+        "tag": []
+    },
+    "1001": {
+        "id": 1001,
+        "code_article": "LIV-01",
+        "libelle": "Manuel de Python",
+        "pere": 100,
+        "tag": []
+    },
+    "1002": {
+        "id": 1002,
+        "code_article": "LIV-02",
+        "libelle": "Algorithmique Avancée",
+        "pere": 100,
+        "tag": []
+    },
+    "1011": {
+        "id": 1011,
+        "code_article": "LIV-03",
+        "libelle": "Architecture Réseaux",
+        "pere": 101,
+        "tag": []
+    },
+    "1101": {
+        "id": 1101,
+        "code_article": "LIV-04",
+        "libelle": "Histoire de l'Art",
+        "pere": 110,
+        "tag": []
+    },
+    "1110": {
+        "id": 1110,
+        "code_article": "LIV-05",
+        "libelle": "Guide de la Lecture",
+        "pere": 111,
+        "tag": []
+    },
+    "1111": {
+        "id": 1111,
+        "code_article": "LIV-06",
+        "libelle": "Guide du voyageur intergalactique",
+        "pere": 111,
+        "tag": []
+    }
+}
