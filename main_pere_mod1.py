@@ -16,12 +16,12 @@ class ArticleNode:
     """
     Représente un nœud dans l'arbre des articles sans redondance.
     """
-    def __init__(self, id, code_article, libelle, pere=None):
+    def __init__(self, id, code_article, libelle, pere=None, tag=[]):
         self.id = id
         self.code_article = code_article
         self.libelle = libelle
         self.pere = pere  # ID du parent (unique lien de parenté)
-        self.tag = [] # Liste de tags pour les annotations supplémentaires
+        self.tag = tag # Liste de tags pour les annotations supplémentaires
 
     def __repr__(self):
         return f"Node({self.code_article}: {self.libelle})"
@@ -43,9 +43,11 @@ class ArticleTree:
                 id = item['id'],
                 code_article = item['code_article'],
                 libelle = item['libelle'],
-                pere = item['pere']
+                pere = item['pere'],
+                tag = item['tag']
             )
             self.nodes[node.id] = node
+            
 
     def trouver_enfants(self, parent_id):
         """
@@ -100,7 +102,6 @@ class ArticleTree:
         """
         import json
         data = {node.id: {
-            'id': node.id,
             'code_article': node.code_article,
             'libelle': node.libelle,
             'pere': node.pere,
@@ -116,16 +117,15 @@ class ArticleTree:
         import json
         with open(fichier, 'r', encoding='utf-8') as f:
             data = json.load(f)
-        for node_data in data.values():
+        for node_id, node_data in data.items():
             node = ArticleNode(
-                id = node_data['id'],
+                id = int(node_id),
                 code_article = node_data['code_article'],
                 libelle = node_data['libelle'],
-                pere = node_data['pere']
+                pere = node_data['pere'],
+                tag = node_data['tag']
             )
-            node.tag = node_data['tag']
             self.nodes[node.id] = node
-
 
 # --- EXEMPLE D'UTILISATION : GESTION D'UN BÂTIMENT ---
 
@@ -133,27 +133,27 @@ if __name__ == "__main__":
     # Liste simulant la hiérarchie : Bâtiment > Salle > Casier > Livre
     donnees_articles = [
         # Niveau 0 : Le Bâtiment
-        {"id": 1, "code_article": "BAT-A", "libelle": "Bâtiment Principal", "pere": None},
+        {"id": 1, "code_article": "BAT-A", "libelle": "Bâtiment Principal", "pere": None, "tag": ["Bâtiment"]},
         
         # Niveau 1 : Les Salles (parent = Bâtiment)
-        {"id": 10, "code_article": "S01", "libelle": "Salle de Stockage Nord", "pere": 1},
-        {"id": 11, "code_article": "S02", "libelle": "Salle de Lecture", "pere": 1},
+        {"id": 10, "code_article": "S01", "libelle": "Salle de Stockage Nord", "pere": 1, "tag": ["Salle"]},
+        {"id": 11, "code_article": "S02", "libelle": "Salle de Lecture", "pere": 1, "tag": ["Salle"]},
         
         # Niveau 2 : Les Casiers (parent = Salles)
-        {"id": 100, "code_article": "C-A1", "libelle": "Casier Métallique A1", "pere": 10},
-        {"id": 101, "code_article": "C-A2", "libelle": "Casier Métallique A2", "pere": 10},
-        {"id": 110, "code_article": "C-B1", "libelle": "Étagère Bois B1", "pere": 11},
-        {"id": 111, "code_article": "C-B2", "libelle": "Boite aux lettres", "pere": 1},
+        {"id": 100, "code_article": "C-A1", "libelle": "Casier Métallique A1", "pere": 10, "tag": ["Casier"]},
+        {"id": 101, "code_article": "C-A2", "libelle": "Casier Métallique A2", "pere": 10, "tag": ["Casier"]},
+        {"id": 110, "code_article": "C-B1", "libelle": "Étagère Bois B1", "pere": 11, "tag": ["Casier"]},
+        {"id": 111, "code_article": "C-B2", "libelle": "Boite aux lettres", "pere": 1, "tag": ["Casier"]},
         
         # Niveau 3 : Les Livres (parent = Casiers)
-        {"id": 1001, "code_article": "LIV-01", "libelle": "Manuel de Python", "pere": 100},
-        {"id": 1002, "code_article": "LIV-02", "libelle": "Algorithmique Avancée", "pere": 100},
-        {"id": 1011, "code_article": "LIV-03", "libelle": "Architecture Réseaux", "pere": 101},
-        {"id": 1101, "code_article": "LIV-04", "libelle": "Histoire de l'Art", "pere": 110},
+        {"id": 1001, "code_article": "LIV-01", "libelle": "Manuel de Python", "pere": 100, "tag": ["Livre"]},
+        {"id": 1002, "code_article": "LIV-02", "libelle": "Algorithmique Avancée", "pere": 100, "tag": ["Livre"]},
+        {"id": 1011, "code_article": "LIV-03", "libelle": "Architecture Réseaux", "pere": 101, "tag": ["Livre"]},
+        {"id": 1101, "code_article": "LIV-04", "libelle": "Histoire de l'Art", "pere": 110, "tag": ["Livre"]},
 
         # Niveau 3? : Les Livres qui n'ont pas encore de casier (parent = Salle)
-        {"id": 1110, "code_article": "LIV-05", "libelle": "Guide de la Lecture", "pere": 111 },
-        {"id": 1111, "code_article": "LIV-06", "libelle": "Guide du voyageur intergalactique", "pere": 111 },
+        {"id": 1110, "code_article": "LIV-05", "libelle": "Guide de la Lecture", "pere": 111, "tag": ["Livre"]},
+        {"id": 1111, "code_article": "LIV-06", "libelle": "Guide du voyageur intergalactique", "pere": 111, "tag": ["Livre"]},
     
     ]
 
