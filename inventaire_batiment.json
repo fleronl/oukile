@@ -52,7 +52,7 @@
         "libelle": "Boite aux lettres",
         "pere": 1,
         "tag": [
-            "Casier"
+            "Arrivée"
         ]
     },
     "1001": {
@@ -90,7 +90,7 @@
     "1110": {
         "code_article": "LIV-05",
         "libelle": "Guide de la Lecture",
-        "pere": 111,
+        "pere": 0,
         "tag": [
             "Livre"
         ]
@@ -98,7 +98,7 @@
     "1111": {
         "code_article": "LIV-06",
         "libelle": "Guide du voyageur intergalactique",
-        "pere": 111,
+        "pere": 0,
         "tag": [
             "Livre"
         ]

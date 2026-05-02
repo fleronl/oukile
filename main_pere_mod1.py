@@ -24,7 +24,7 @@ class ArticleNode:
         self.tag = tag # Liste de tags pour les annotations supplémentaires
 
     def __repr__(self):
-        return f"Node({self.code_article}: {self.libelle})"
+        return f"Noeud({self.code_article}: {self.libelle})"
 
 
 class ArticleTree:
@@ -39,14 +39,16 @@ class ArticleTree:
         Remplit le dictionnaire de noeuds à partir d'une liste brute.
         """
         for item in liste_articles:
-            node = ArticleNode(
+            # Creation d'un objet de type noeud
+            noeud = ArticleNode(
                 id = item['id'],
                 code_article = item['code_article'],
                 libelle = item['libelle'],
                 pere = item['pere'],
                 tag = item['tag']
             )
-            self.nodes[node.id] = node
+            # Ajoute de cet objet à l'arbre dico pour clé 'id'
+            self.nodes[noeud.id] = noeud
             
 
     def trouver_enfants(self, parent_id):
@@ -89,6 +91,16 @@ class ArticleTree:
             # Appel récursif pour chercher les enfants de ce nœud
             self.afficher_arbre(n.id, niveau + 1)
 
+    def afficher_orphelin(self):
+        """
+        Affiche les noeuds non associés (0)
+        """
+        print('Les articles non associés :')
+        noeuds = self.nodes
+        for noeud in noeuds.values():
+            if noeud.pere == 0:
+                print(f'{noeud}')          
+
     def ajouterTag(self, id, tag):
         """
         Ajoute un tag à la liste de tags du nœud identifié par 'id'.
@@ -115,8 +127,10 @@ class ArticleTree:
         Charge les noeuds depuis un fichier JSON et les ajoute à l'arbre.
         """
         import json
+        
         with open(fichier, 'r', encoding='utf-8') as f:
             data = json.load(f)
+            
         for node_id, node_data in data.items():
             node = ArticleNode(
                 id = int(node_id),
@@ -127,10 +141,9 @@ class ArticleTree:
             )
             self.nodes[node.id] = node
 
-# --- EXEMPLE D'UTILISATION : GESTION D'UN BÂTIMENT ---
-
 if __name__ == "__main__":
     # Liste simulant la hiérarchie : Bâtiment > Salle > Casier > Livre
+    
     donnees_articles = [
         # Niveau 0 : Le Bâtiment
         {"id": 1, "code_article": "BAT-A", "libelle": "Bâtiment Principal", "pere": None, "tag": ["Bâtiment"]},
@@ -143,7 +156,7 @@ if __name__ == "__main__":
         {"id": 100, "code_article": "C-A1", "libelle": "Casier Métallique A1", "pere": 10, "tag": ["Casier"]},
         {"id": 101, "code_article": "C-A2", "libelle": "Casier Métallique A2", "pere": 10, "tag": ["Casier"]},
         {"id": 110, "code_article": "C-B1", "libelle": "Étagère Bois B1", "pere": 11, "tag": ["Casier"]},
-        {"id": 111, "code_article": "C-B2", "libelle": "Boite aux lettres", "pere": 1, "tag": ["Casier"]},
+        {"id": 111, "code_article": "C-B2", "libelle": "Boite aux lettres", "pere": 1, "tag": ["Arrivée"]},
         
         # Niveau 3 : Les Livres (parent = Casiers)
         {"id": 1001, "code_article": "LIV-01", "libelle": "Manuel de Python", "pere": 100, "tag": ["Livre"]},
@@ -152,8 +165,8 @@ if __name__ == "__main__":
         {"id": 1101, "code_article": "LIV-04", "libelle": "Histoire de l'Art", "pere": 110, "tag": ["Livre"]},
 
         # Niveau 3? : Les Livres qui n'ont pas encore de casier (parent = Salle)
-        {"id": 1110, "code_article": "LIV-05", "libelle": "Guide de la Lecture", "pere": 111, "tag": ["Livre"]},
-        {"id": 1111, "code_article": "LIV-06", "libelle": "Guide du voyageur intergalactique", "pere": 111, "tag": ["Livre"]},
+        {"id": 1110, "code_article": "LIV-05", "libelle": "Guide de la Lecture", "pere": 0, "tag": ["Livre"]},
+        {"id": 1111, "code_article": "LIV-06", "libelle": "Guide du voyageur intergalactique", "pere": 0, "tag": ["Livre"]},
     
     ]
 
