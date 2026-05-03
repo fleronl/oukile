@@ -65,7 +65,7 @@ class ArticleTree:
         courant_id = id_destination
 
         while courant_id is not None:
-            noeud = self.nodes.get(courant_id)
+            noeud = self.nodes[courant_id]
             if noeud:
                 chemin.append(noeud)
                 courant_id = noeud.pere
@@ -178,7 +178,7 @@ if __name__ == "__main__":
     mon_arbre.afficher_arbre(parent_id=None)
 
     print("-" * 30)
-    """
+    
     # Interaction avec l'utilisateur
     try:
         id_cible = int(input("\nEntrez l'ID du nœud de destination pour trouver son chemin : "))
@@ -195,7 +195,7 @@ if __name__ == "__main__":
             
     except ValueError:
         print("Erreur : Veuillez entrer un nombre entier pour l'ID.")
-    """
+    
     # Sauvegarde de l'arbre dans un fichier JSON
     mon_arbre.sauvegarder_json("inventaire_batiment.json")
     print("\nL'inventaire a été sauvegardé dans 'inventaire_batiment.json'.")
